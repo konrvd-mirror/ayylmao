@@ -71,16 +71,6 @@ lmaolien (){
 EOF
 }
 
-if [ $1 = -h ]; then
-	cat <<"EOF"
-ayylmao Alpha Build 0.15 Codename "Area 51"
-
-Description: Cute alien animation dances 4u
-
-Options:	-p	Enables PartyMode (experimental...depends on 'xfce-notifyd')
-		-h	Displays this help
-EOF
-	exit 0
 if [ $1 = -h ] || [ "$1" = "--help" ]; then
 	cat <<"EOF"
 ayylmao Alpha Build 0.15 Codename "Area 51"

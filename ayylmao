@@ -1,10 +1,4 @@
 #!/bin/sh
-#
-#ayylmao Alpha Build 0.15 Codename "Area 51"
-#Desktop Memes for Unix-like shell
-#Cute alien animation dances 4u
-#
-
 
 ayyup (){
 	clear
@@ -76,9 +70,17 @@ lmaolien (){
   
 EOF
 }
+if [ $1 = -h ]; then
+	cat <<"EOF"
+ayylmao Alpha Build 0.15 Codename "Area 51"
 
+Description: Cute alien animation dances 4u
+
+Options:	-p	Enables PartyMode (experimental...depends on 'xfce-notifyd')
+		-h	Displays this help
+EOF
+fi
 if [ $1 = -p ]; then
-	#party mode is 'experimental'
 	while true; do
 		ayyup; notify-send "ayy"
 		ayydown; notify-send "lmao"

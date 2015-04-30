@@ -81,8 +81,20 @@ Options:	-p	Enables PartyMode (experimental...depends on 'xfce-notifyd')
 		-h	Displays this help
 EOF
 	exit 0
+if [ $1 = -h ] || [ "$1" = "--help" ]; then
+	cat <<"EOF"
+ayylmao Alpha Build 0.15 Codename "Area 51"
+
+Description:
+	Cute green alien animation dances 4u
+
+Options:
+	-p	--party	Enables PartyMode (experimental...depends on 'xfce-notifyd')
+	-h	--help	Displays this help
+EOF
+	exit
 else
-	if [ $1 = -p ]; then
+	if [ $1 = -p ] || [ "$1" = "--party" ]; then
 		while true; do
 			ayyup; notify-send "ayy"
 			ayydown; notify-send "lmao"

@@ -1,0 +1,91 @@
+#!/bin/sh
+#
+#ayylmao Alpha Build 0.15 Codename "Area 51"
+#Desktop Memes for Unix-like shell
+#Cute alien animation dances 4u
+#
+
+
+ayyup (){
+	clear
+	cat << "EOF"
+a   y   m   o
+  y   l   a
+EOF
+	tput setaf 2
+	ayylien #first encounter
+	tput setaf 9
+	sleep 1
+}
+
+
+ayydown (){
+	clear
+
+	cat << "EOF"
+  y   l   a
+a   y   m   o
+EOF
+	tput setaf 2
+	lmaolien
+	tput setaf 9
+	sleep 1
+	
+}
+
+ayylien (){
+	cat << "EOF"
+      .--.   |V|  
+     /    \ _| /  
+     ()..() \ /   
+      \--/  //    
+ayy  __||__//     
+    /.    _/      
+   // \  /        
+  //   ||         
+  \\  /  \        
+   )\|    |       
+  / || || |       
+  |/\| || |       
+     | || |       
+     \ || /       
+   __/ || \__     
+  \____/\____/    
+  
+EOF
+}
+
+lmaolien (){
+	cat << "EOF"
+|V|   .--.        
+\ |_ /    \   
+ \ / ()..()  
+  \\  \--/    
+   \\__||__  lmao    
+    \_    .\      
+      \  / \\        
+       ||   \\      
+      /  \  //      
+     |    |/(      
+     | || || \       
+     | || |/\|       
+     | || |       
+     \ || /       
+   __/ || \__     
+  \____/\____/    
+  
+EOF
+}
+
+if [ $1 = -p ]; then
+	#party mode is 'experimental'
+	while true; do
+		ayyup; notify-send "ayy"
+		ayydown; notify-send "lmao"
+	done
+else
+	while true; do
+		ayyup
+		ayydown
+	done
+fi

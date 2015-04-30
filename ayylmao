@@ -70,6 +70,7 @@ lmaolien (){
   
 EOF
 }
+
 if [ $1 = -h ]; then
 	cat <<"EOF"
 ayylmao Alpha Build 0.15 Codename "Area 51"
@@ -79,15 +80,17 @@ Description: Cute alien animation dances 4u
 Options:	-p	Enables PartyMode (experimental...depends on 'xfce-notifyd')
 		-h	Displays this help
 EOF
-fi
-if [ $1 = -p ]; then
-	while true; do
-		ayyup; notify-send "ayy"
-		ayydown; notify-send "lmao"
-	done
+	exit 0
 else
-	while true; do
-		ayyup
-		ayydown
-	done
+	if [ $1 = -p ]; then
+		while true; do
+			ayyup; notify-send "ayy"
+			ayydown; notify-send "lmao"
+		done
+	else
+		while true; do
+			ayyup
+			ayydown
+		done	
+	fi
 fi

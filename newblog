@@ -1,0 +1,22 @@
+#!/bin/bash
+
+DIR=/home/konrvd/Documents/Web/konrvd-mirror.github.io
+FECHA=$(date +'%Y-%d-%m')
+if [ $1 = post ]; then
+	PSTR=${FECHA}-$2.markdown
+	DIR=$DIR/_posts
+else if [ $1 = page ]; then
+	PSTR=$2.markdown
+	DIR=$DIR/_pages
+else
+	echo ...¡ALGO SAIO MAL!
+	read -p "[Presione ENTER para continuar]"
+	exit 1
+fi; fi
+cat << EOF > $DIR/${PSTR// /-}
+---
+layout: $1
+title: "$2"
+---
+EOF
+echo ...Archivo creado exitosamente.

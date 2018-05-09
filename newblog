@@ -34,7 +34,7 @@ crear (){
 			* )
 				read -sp "...Opcion invalida." ;;
 		esac
-		if [ -z "$PSTR"]; then
+		if [ -z "$PSTR" ]; then
 			read -sp "...No se admiten titulos en blanco."
 		else if [ $OP == post ] || [ $OP == page ]; then
 			cat <<-EOF > $FSTR
@@ -53,7 +53,8 @@ crear (){
 publicar (){
 	clear
 	echo ...Verificando cambios en repositorio.
-	if ! git diff -s --exit-code; then
+	if ! git diff -s --exit-code || \
+	[ -n "$(git ls-files --others --exclude-standard --no-empty-directory)" ]; then
 		git add --all
 		git commit -qm "Initial commit"
 		echo ...Conectando con repositorio remoto.

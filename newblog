@@ -1,22 +1,112 @@
 #!/bin/bash
 
-DIR=/home/konrvd/Documents/Web/konrvd-mirror.github.io
-FECHA=$(date +'%Y-%d-%m')
-if [ $1 = post ]; then
-	PSTR=${FECHA}-$2.markdown
-	DIR=$DIR/_posts
-else if [ $1 = page ]; then
-	PSTR=$2.markdown
-	DIR=$DIR/_pages
-else
-	echo ...¡ALGO SAIO MAL!
-	read -p "[Presione ENTER para continuar]"
-	exit 1
-fi; fi
-cat << EOF > $DIR/${PSTR// /-}
----
-layout: $1
-title: "$2"
----
-EOF
-echo ...Archivo creado exitosamente.
+actualizar (){
+	clear
+	echo ...Conectando con repositorio remoto.
+	git pull -q
+	read -sp "...Repositorio local actualizado correctamente."	
+}
+
+crear (){
+	while true; do
+		clear
+		FECHA=$(date +'%Y-%m-%d')
+		cat <<-EOF
+			=======================
+			Crear nueva publicacion
+			=======================
+			1. Post en blog
+			2. Pagina generica
+			3. Volver a menu principal
+		EOF
+		read -p "Ingresar [OPCION] > " OP
+		case $OP in
+			1 )
+				read -p "Ingresar [TITULO] > " PSTR
+				FSTR=$(pwd)/_posts/$FECHA-${PSTR// /-}.markdown 
+				OP=post ;;
+			2 )
+				read -p "Ingresar [TITULO] > " PSTR			
+				FSTR=$(pwd)/_pages/${PSTR// /-}.markdown 
+				OP=page ;;
+			3 )
+				return 1 ;;
+			* )
+				read -sp "...Opcion invalida." ;;
+		esac
+		if [ -z "$PSTR"]; then
+			read -sp "...No se admiten titulos en blanco."
+		else if [ $OP == post ] || [ $OP == page ]; then
+			cat <<-EOF > $FSTR
+				---
+				layout: $OP
+				title: "$PSTR"
+				date: ${FECHA} $(date +'%X')
+				---
+			EOF
+			read -sp "...Archivo creado exitosamente."
+			return 1
+		fi; fi
+	done
+}
+
+publicar (){
+	clear
+	echo ...Verificando cambios en repositorio.
+	if ! git diff -s --exit-code; then
+		git add --all
+		git commit -qm "Initial commit"
+		echo ...Conectando con repositorio remoto.
+		if git push -qu --force origin master; then
+			read -sp "...Cambios guardados correctamente."
+		else
+			read -sp "...Algo salio mal."
+		fi
+	else
+		read -sp "...No hay cambios para guardar."
+	fi
+}
+
+salir (){
+	while true; do
+		clear
+		echo ¿Esta seguro que desea salir?
+		read -p "[S/N] > " OP
+		OP=${OP::1} && OP=${OP^^}
+		case $OP in
+			S )
+				read -sp "...Hasta la proxima."
+				clear; exit 1 ;;
+			N )
+				return 1 ;;
+			* )
+				read -sp "...Opcion invalida." ;;
+		esac
+	done
+}
+
+while true; do
+	clear
+	cat <<-EOF
+		==================
+		Centro de comandos
+		==================
+		1. Actualizar repositorio local
+		2. Crear nueva publicacion
+		3. Actualizar repositorio remoto
+		4. Salir de centro
+	EOF
+	read -p "Ingresar [OPCION] > " OP
+	case $OP in
+		1 )
+			actualizar ;;
+		2 )
+			crear ;;
+		3 )
+			publicar ;;
+		4 )
+			salir ;;
+		* )
+			read -sp "...Opcion invalida." ;;
+	esac
+done

@@ -28,6 +28,7 @@ crear (){
 			2 )
 				read -p "Ingresar [TITULO] > " PSTR			
 				FSTR=$(pwd)/_pages/${PSTR// /-}.markdown 
+
 				OP=page ;;
 			3 )
 				return 1 ;;
@@ -44,20 +45,28 @@ crear (){
 				date: ${FECHA} $(date +'%X')
 				---
 			EOF
+			nano $FSTR
+			if [[ $(wc -c < $FSTR) > 200 ]]; then
+				sed -i -r -e 's/^.{200}/&```-moarmoar-```/' $FSTR
+			fi
 			read -sp "...Archivo creado exitosamente."
 			return 1
 		fi; fi
 	done
 }
 
+editar (){
+	read -sp "...En construccion teehee~<3"
+}
+
 publicar (){
 	clear
-	echo ...Verificando cambios en repositorio.
+	echo "...Verificando cambios en repositorio."
 	if ! git diff -s --exit-code || \
 	[ -n "$(git ls-files --others --exclude-standard --no-empty-directory)" ]; then
 		git add --all
 		git commit -qm "Initial commit"
-		echo ...Conectando con repositorio remoto.
+		echo "...Conectando con repositorio remoto."
 		if git push -qu --force origin master; then
 			read -sp "...Cambios guardados correctamente."
 		else
@@ -85,7 +94,7 @@ salir (){
 		esac
 	done
 }
-
+git config --global credential.helper cache
 while true; do
 	clear
 	cat <<-EOF
@@ -94,8 +103,9 @@ while true; do
 		==================
 		1. Actualizar repositorio local
 		2. Crear nueva publicacion
-		3. Actualizar repositorio remoto
-		4. Salir de centro
+		3. Modificar archivos
+		4. Actualizar repositorio remoto
+		5. Salir de centro
 	EOF
 	read -p "Ingresar [OPCION] > " OP
 	case $OP in
@@ -106,6 +116,8 @@ while true; do
 		3 )
 			publicar ;;
 		4 )
+			publicar ;;
+		5 )
 			salir ;;
 		* )
 			read -sp "...Opcion invalida." ;;

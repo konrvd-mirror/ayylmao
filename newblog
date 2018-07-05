@@ -28,7 +28,6 @@ crear (){
 			2 )
 				read -p "Ingresar [TITULO] > " PSTR			
 				FSTR=$(pwd)/_pages/${PSTR// /-}.markdown 
-
 				OP=page ;;
 			3 )
 				return 1 ;;
@@ -38,17 +37,11 @@ crear (){
 		if [ -z "$PSTR" ]; then
 			read -sp "...No se admiten titulos en blanco."
 		else if [ $OP == post ] || [ $OP == page ]; then
-			cat <<-EOF > $FSTR
-				---
-				layout: $OP
-				title: "$PSTR"
-				date: ${FECHA} $(date +'%X')
-				---
-			EOF
 			nano $FSTR
-			if [[ $(wc -c < $FSTR) > 200 ]]; then
-				sed -i -r -e 's/^.{200}/&```-moarmoar-```/' $FSTR
+			if (( $(wc -c < $FSTR) > 250 )); then
+				sed -i -r -e 's/^.{250}/&-moarmoar-/' $FSTR
 			fi
+			sed -i "1i---\nlayout: $OP\ntitle: '$PSTR'\ndate: ${FECHA} $(date +'%X')\n---\n" $FSTR
 			read -sp "...Archivo creado exitosamente."
 			return 1
 		fi; fi
